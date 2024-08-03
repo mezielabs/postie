@@ -1,0 +1,21 @@
+@layout.app({title: `${user.name} (${user.handle})`})
+  <div class="max-w-2xl mx-auto px-6 py-10">
+    <div>
+      <div class="mt-2 text-center">
+        <h1 class="text-gray-800 text-3xl font-medium">{{ user.name }}</h1>
+        <span class="text-gray-600">{{ user.handle }}</span>
+      </div>
+
+      <div class="mt-4 flex items-center justify-center text-gray-600 space-x-2">
+        <span>{{ user.$extras.posts_count }} {{ pluralize('post', user.$extras.posts_count) }}</span>
+        <span>{{ user.$extras.likes_count }} {{ pluralize('like', user.$extras.likes_count) }}</span>
+      </div>
+    </div>
+
+    <div class="mt-10 space-y-5">
+      @each(post in user.posts)
+        @include('pages/partials/post')
+      @end
+    </div>
+  </div>
+@end

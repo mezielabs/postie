@@ -1,0 +1,32 @@
+@layout.app({ title: 'Post feed' })
+  <div class="max-w-2xl mx-auto px-6 py-10">
+    @flashMessage('notification')
+      <div class="mt-2 bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4" role="alert">
+        {{ $message.message }}
+      </div>
+    @end
+
+    <form class="space-y-4" action="/posts" method="post">
+      {{ csrfField() }}
+
+      <div>
+        <textarea class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" name="content" required rows="3" placeholder="Share an update..."></textarea>
+
+        @inputError('content')
+          <p class="text-xs text-red-600 mt-2">{{ $messages }}</p>
+        @end
+      </div>
+
+      <button
+        class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+        Post
+      </button>
+    </form>
+
+    <div class="mt-10 space-y-5">
+      @each(post in posts)
+        @include('pages/partials/post')
+      @end
+    </div>
+  </div>
+@end

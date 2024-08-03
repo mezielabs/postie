@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html class="h-full">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+
+<body class="bg-gray-50 flex flex-col min-h-full">
+  <header class="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-4">
+    <nav class="max-w-[85rem] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between" aria-label="Global">
+      <a class="flex-none text-xl font-semibold" href="/">Postie</a>
+      <div class="flex flex-row items-center gap-5 mt-5 sm:justify-end sm:mt-0 sm:ps-5">
+        @eval(await auth.check())
+
+        @if(auth.isAuthenticated)
+          <div>{{ auth.user.name }}</div>
+
+          <form action="/logout?_method=DELETE" method="post">
+            {{ csrfField() }}
+
+            <button class="text-gray-600 font-medium hover:text-gray-400">Log out</button>
+          </form>
+        @else
+          <a href="/login" class="text-gray-600 font-medium hover:text-gray-400">Log in</a>
+          <a href="/register" class="text-gray-600 font-medium hover:text-gray-400">Register</a>
+        @end
+      </div>
+    </nav>
+  </header>
+
+  <main class="grow">
+    {{{ await $slots.main() }}}
+  </main>
+</body>
+
+</html>

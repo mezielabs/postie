@@ -1,0 +1,74 @@
+<div class="p-5 bg-white shadow-sm rounded-xl">
+  <div class="flex items-center justify-between">
+    <a class="flex items-center space-x-1" href="{{ `/${post.user.username}` }}">
+      <div class="text-gray-800 font-medium">{{ post.user.name }}</div>
+      <span class="text-gray-500 text-sm">{{ post.user.handle }}</span>
+    </a>
+
+    @if(auth.isAuthenticated && post.user.id === auth.user.id)
+    <div class="flex items-center space-x-2">
+      <a class="text-gray-500 text-sm hover:text-gray-600" href="{{ `/posts/${post.id}/edit` }}">
+        Edit
+      </a>
+
+      <form action="{{ `/posts/${post.id}?_method=DELETE` }}" method="post">
+        {{ csrfField() }}
+
+        <button class="text-gray-500 text-sm hover:text-red-500">Delete</button>
+      </form>
+    </div>
+    @end
+  </div>
+
+  <p class="mt-3 text-gray-700">{{ post.content }}</p>
+
+  <div class="mt-3 flex items-center justify-between">
+    @if(auth.isAuthenticated)
+    @if(await auth.user.hasLikedPost(post.id))
+    <form action="{{ `/posts/${post.id}/likes?_method=DELETE` }}" method="post">
+      {{ csrfField() }}
+
+      <button class="flex items-center space-x-1 text-gray-500 text-sm">
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+        </svg>
+
+        <span>{{ post.$extras.likes_count }}</span>
+      </button>
+    </form>
+    @else
+    <form action="{{ `/posts/${post.id}/likes` }}" method="post">
+      {{ csrfField() }}
+
+      <button class="flex items-center space-x-1 text-gray-500 text-sm">
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path
+            d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+        </svg>
+        <span>{{ post.$extras.likes_count }}</span>
+      </button>
+    </form>
+    @end
+    @else
+    <div class="flex items-center space-x-1 text-gray-500 text-sm">
+      <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path
+          d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+      </svg>
+      <span>{{ post.$extras.likes_count }}</span>
+    </div>
+    @end
+
+    <div class="flex items-center space-x-1">
+      @if(post.createdAt.equals(post.updatedAt))
+      <div class="text-gray-500 text-sm">{{ post.createdAt.toRelative() }}</div>
+      @else
+      <div class="text-gray-500 text-sm">Edited</div>
+      <div class="text-gray-500 text-sm">{{ post.updatedAt.toRelative() }}</div>
+      @end
+    </div>
+  </div>
+</div>
