@@ -1,6 +1,8 @@
 import User from '#models/user'
 import { RegisterValidator } from '#validators/register'
 import type { HttpContext } from '@adonisjs/core/http'
+import Queue from '@rlanz/bull-queue/services/main'
+import SendWelcomeEmailJob from '../jobs/send_welcome_email_job.js'
 
 export default class RegisterController {
   create({ view }: HttpContext) {
@@ -13,6 +15,8 @@ export default class RegisterController {
     const user = await User.create(payload)
 
     await auth.use('web').login(user)
+
+    Queue.dispatch(SendWelcomeEmailJob, user)
 
     session.flash({
       notification: {
