@@ -1,0 +1,14 @@
+node_modules
+build
+coverage
+.vscode
+.DS_STORE
+.env
+tmp
+public/assets
+.pnpm-debug.log
+.dockerignore
+npm-debug.log
+Dockerfile
+.git
+.gitignore
