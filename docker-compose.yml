@@ -1,8 +1,6 @@
 services:
   app:
     image: 'ammezie/postie:latest'
-    volumes:
-      - '.:/home/node/app'
     environment:
       TZ: ${TZ}
       PORT: ${PORT}
@@ -10,7 +8,6 @@ services:
       LOG_LEVEL: ${LOG_LEVEL}
       APP_KEY: ${APP_KEY}
       NODE_ENV: ${NODE_ENV}
-      APP_URL: ${APP_URL}
       SESSION_DRIVER: ${SESSION_DRIVER}
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
@@ -26,8 +23,6 @@ services:
 
   worker:
     image: 'ammezie/postie:latest'
-    volumes:
-      - '.:/home/node/app'
     environment:
       TZ: ${TZ}
       PORT: ${WORKER_PORT}
@@ -35,7 +30,6 @@ services:
       LOG_LEVEL: ${LOG_LEVEL}
       APP_KEY: ${APP_KEY}
       NODE_ENV: ${NODE_ENV}
-      APP_URL: ${APP_URL}
       SESSION_DRIVER: ${SESSION_DRIVER}
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
