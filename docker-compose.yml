@@ -4,9 +4,9 @@ services:
   app:
     image: 'ammezie/postie:latest'
     depends_on:
-      - mysql:
+      mysql:
         condition: service_healthy
-      - redis:
+      redis:
         condition: service_healthy
     environment:
       TZ: ${TZ}
