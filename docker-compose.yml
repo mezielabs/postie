@@ -72,10 +72,11 @@ services:
     ports:
       - '3306:3306'
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "--silent"]
       interval: 5s
-      timeout: 2s
-      retries: 10
+      timeout: 3s
+      retries: 2
+      start_period: 0s
     # volumes:
     #   - mysql-data:/var/lib/mysql
 
