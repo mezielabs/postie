@@ -57,11 +57,12 @@ services:
       SMTP_PASSWORD: ${SMTP_PASSWORD}
     ports:
       - '${WORKER_PORT:-4444}:4444'
-    # command: ['node', '/home/node/app/ace', 'queue:listen']
-    entrypoint: sh -c "node /home/node/app/ace migration:run --force && node bin/server.js"
+    command: ['node', '/home/node/app/ace', 'queue:listen']
 
   mysql:
     image: mysql:8.0
+    cap_add:
+      - SYS_NICE
     restart: always
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
