@@ -30,7 +30,6 @@ services:
       SMTP_PASSWORD: ${SMTP_PASSWORD}
     ports:
       - '${PORT:-3333}:3333'
-    # command: 'node bin/server.js'
     entrypoint: sh -c "node ace migration:run --force && node bin/server.js"
 
   worker:

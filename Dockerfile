@@ -20,4 +20,8 @@ ENV NODE_ENV=production
 COPY --chown=node:node ./package*.json ./
 RUN npm ci --omit=dev
 COPY --chown=node:node --from=build /home/node/app/build .
-CMD ["node", "./bin/server.js"]
+
+COPY --chown=node:node entrypoint.sh /home/node/app
+RUN chmod +x /home/node/app/entrypoint.sh
+
+ENTRYPOINT ["/home/node/app/entrypoint.sh"]
